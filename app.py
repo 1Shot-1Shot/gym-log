@@ -21,31 +21,139 @@ def init_db():
 
 init_db()
 
+# מאגר תרגילים מורחב הכולל קישורים לתמונות אנטומיות ייעודיות לכל שריר
 MACHINES = {
-    "chest_press": {"name": "לחיצת חזה שטוחה במכונה", "category": "חזה", "muscle": "חזה גדול, כתף קדמית, יד אחורית", "guide": "שב בצמוד למשענת, דחף לפנים עד יישור כמעט מלא.", "video_url": "https://www.youtube.com/embed/sqOw2Y6uDWQ"},
-    "incline_chest": {"name": "לחיצת חזה בשיפוע עליון", "category": "חזה", "muscle": "חזה עליון, כתף קדמית", "guide": "כוון את המושב כך שהידיות מול החזה העליון.", "video_url": "https://www.youtube.com/embed/5CIDWJv6Xb8"},
-    "pec_fly": {"name": "פרפר / קירוב חזה", "category": "חזה", "muscle": "חזה גדול", "guide": "שמור על מרפקים מעט כפופים וקרב את הזרועות.", "video_url": "https://www.youtube.com/embed/Z57CtZuYxug"},
-    "cable_crossover": {"name": "קרוס אובר / פולי כפול", "category": "חזה", "muscle": "חזה עליון ואמצעי", "guide": "משוך את הכבלים בתנועה קשתית אל מרכז הגוף.", "video_url": "https://www.youtube.com/embed/taI4XduLlvQ"},
-    
-    "lat_pulldown": {"name": "פולי עליון רחב", "category": "גב", "muscle": "רחב גבי (Latissimus Dorsi), יד קדמית", "guide": "אחוז אחיזה רחבה ומשוך את המוט לחזה.", "video_url": "https://www.youtube.com/embed/CAwf7n6Luuc"},
-    "seated_row": {"name": "חתירה בישיבה (פולי תחתון)", "category": "גב", "muscle": "גב אמצעי, רחב גבי", "guide": "משוך את הידיות לטבור תוך הידוק שכמות.", "video_url": "https://www.youtube.com/embed/GZbfZ033fBo"},
-    "t_bar_row": {"name": "מכשיר T-Bar Row", "category": "גב", "muscle": "גב עליון ותחתון", "guide": "הישען קדימה ומשוך את המשקל אליך.", "video_url": "https://www.youtube.com/embed/j_D6FAuCvfU"},
-    "back_extension": {"name": "כיסא רומי / פשיטת גו", "category": "גב", "muscle": "גב תחתון, ישבן", "guide": "הרם את פלג הגוף העליון בקו ישר.", "video_url": "https://www.youtube.com/embed/ph3pddkdko8"},
+    # --- חזה ---
+    "bench_press": {
+        "name": "לחיצת חזה מוט (שטוח)", "category": "חזה", "type": "free", 
+        "muscle": "חזה גדול, יד אחורית, כתף קדמית", "guide": "שכוב על הספסל, אחוז מוט ברוחב כתפיים, הורד לשד ודחף למעלה.", 
+        "video_url": "https://www.youtube.com/embed/rT7DgCr-3pg",
+        "anatomy_img": "https://exrx.net/Muscles/PectoralisSternal.jpg"
+    },
+    "incline_bench": {
+        "name": "לחיצת חזה מוט בשיפוע עליון", "category": "חזה", "type": "free", 
+        "muscle": "חזה עליון", "guide": "ספסל בשיפוע של 30-45 מעלות, דחף את המוט כלפי מעלה.", 
+        "video_url": "https://www.youtube.com/embed/SrqNv9yexnY",
+        "anatomy_img": "https://exrx.net/Muscles/PectoralisClavicular.jpg"
+    },
+    "dumbbell_press": {
+        "name": "לחיצת חזה עם דאמבלים", "category": "חזה", "type": "free", 
+        "muscle": "חזה גדול ומייצבים", "guide": "החזק משקולות חופשיות ודחף מעלה תוך קירוב קל למעלה.", 
+        "video_url": "https://www.youtube.com/embed/VmB1G1K7v94",
+        "anatomy_img": "https://exrx.net/Muscles/PectoralisSternal.jpg"
+    },
+    "chest_press_machine": {
+        "name": "לחיצת חזה במכונה", "category": "חזה", "type": "machine", 
+        "muscle": "חזה גדול", "guide": "שב בצמוד למשענת ודחף את הידיות לפנים.", 
+        "video_url": "https://www.youtube.com/embed/sqOw2Y6uDWQ",
+        "anatomy_img": "https://exrx.net/Muscles/PectoralisSternal.jpg"
+    },
+    "pec_fly": {
+        "name": "פרפר / קירוב חזה", "category": "חזה", "type": "machine", 
+        "muscle": "חזה מבודד", "guide": "שמור מרפקים מעט קבועים וקרב את הידיים זו לזו.", 
+        "video_url": "https://www.youtube.com/embed/Z57CtZuYxug",
+        "anatomy_img": "https://exrx.net/Muscles/PectoralisSternal.jpg"
+    },
 
-    "shoulder_press": {"name": "לחיצת כתפיים במכונה", "category": "כתפיים", "muscle": "כתף קדמית ואמצעית", "guide": "דחף את הידיות כלפי מעלה מבלי לנעול מרפקים.", "video_url": "https://www.youtube.com/embed/WvLMauqrnK8"},
-    "reverse_fly": {"name": "פרפר הפוך לכתף אחורית", "category": "כתפיים", "muscle": "כתף אחורית, שכמות", "guide": "פתח את הזרועות אחורה כנגד ההתנגדות.", "video_url": "https://www.youtube.com/embed/0G2_95CkVg8"},
-    "lateral_raise": {"name": "מכשיר הרחקת זרועות לצדדים", "category": "כתפיים", "muscle": "כתף אמצעית", "guide": "הרם את המרפקים לצדדים בגובה הכתפיים.", "video_url": "https://www.youtube.com/embed/PusVb_Ku_eY"},
+    # --- גב ---
+    "pullups": {
+        "name": "מתח (Pull-ups)", "category": "גב", "type": "free", 
+        "muscle": "רחב גבי (Lats), יד קדמית", "guide": "תפוס אחיזה רחבה ומשוך את החזה אל המוט.", 
+        "video_url": "https://www.youtube.com/embed/eGo4IYlbE5g",
+        "anatomy_img": "https://exrx.net/Muscles/LatissimusDorsi.jpg"
+    },
+    "lat_pulldown": {
+        "name": "פולי עליון רחב", "category": "גב", "type": "machine", 
+        "muscle": "רחב גבי", "guide": "משוך את המוט אל החזה העליון תוך הוצאת חזה.", 
+        "video_url": "https://www.youtube.com/embed/CAwf7n6Luuc",
+        "anatomy_img": "https://exrx.net/Muscles/LatissimusDorsi.jpg"
+    },
+    "barbell_row": {
+        "name": "חתירה במוט בהטיית גו", "category": "גב", "type": "free", 
+        "muscle": "גב אמצעי, רחב גבי", "guide": "התכופף עם גב ישיר ומשוך את המוט אל הבטן.", 
+        "video_url": "https://www.youtube.com/embed/GWD8lV23IB4",
+        "anatomy_img": "https://exrx.net/Muscles/TrapeziusMiddle.jpg"
+    },
+    "seated_row": {
+        "name": "חתירה בישיבה (פולי תחתון)", "category": "גב", "type": "machine", 
+        "muscle": "גב אמצעי", "guide": "משוך את הידיות לטבור והדק שכמות מאחור.", 
+        "video_url": "https://www.youtube.com/embed/GZbfZ033fBo",
+        "anatomy_img": "https://exrx.net/Muscles/TrapeziusMiddle.jpg"
+    },
+    "deadlift": {
+        "name": "דדליפט (Deadlift)", "category": "גב", "type": "free", 
+        "muscle": "גב תחתון, המסטרינג, ישבן", "guide": "הרים מוט מהרצפה תוך שמירה על גב ישר לגמרי.", 
+        "video_url": "https://www.youtube.com/embed/op9kVnSso6Q",
+        "anatomy_img": "https://exrx.net/Muscles/ErectorSpinae.jpg"
+    },
 
-    "leg_press": {"name": "לחיצת רגליים (45 מעלות)", "category": "רגליים", "muscle": "ארבע-ראשי, ישבן", "guide": "מקם רגליים ברוחב כתפיים ודחף את הפלטפורמה.", "video_url": "https://www.youtube.com/embed/IZxyjW7MPJQ"},
-    "leg_extension": {"name": "פשטת ברכיים (ירך קדמית)", "category": "רגליים", "muscle": "ארבע-ראשי (Quadriceps)", "guide": "ישר את הברכיים כלפי מעלה ורד לאט.", "video_url": "https://www.youtube.com/embed/YyvSfVjQeL0"},
-    "leg_curl": {"name": "כפיפת ברכיים (ירך אחורית)", "category": "רגליים", "muscle": "המסטרינג (Hamstrings)", "guide": "כופף את הרגליים לאחור כנגד הכרית.", "video_url": "https://www.youtube.com/embed/1T5Kjn7x91w"},
-    "hack_squat": {"name": "האק סקוואט (Hack Squat)", "category": "רגליים", "muscle": "ארבע-ראשי, ישבן", "guide": "רד לעומק בשליטה מלאה ועלה חזרה.", "video_url": "https://www.youtube.com/embed/0tn5K9NlCfo"},
-    "calf_raise": {"name": "מכשיר תאומים בעמידה", "category": "רגליים", "muscle": "שוקיים (Calves)", "guide": "עלה על קצות האצבעות והתרת עקב למטה.", "video_url": "https://www.youtube.com/embed/YMme0n7Bedw"},
+    # --- רגליים ---
+    "squat": {
+        "name": "סקוואט חופשי עם מוט", "category": "רגליים", "type": "free", 
+        "muscle": "ארבע-ראשי, ישבן, ליבה", "guide": "הנח מוט על הטרפזים, רד לעומק בשליטה ועלייה.", 
+        "video_url": "https://www.youtube.com/embed/ultWZbUMPL8",
+        "anatomy_img": "https://exrx.net/Muscles/Quadriceps.jpg"
+    },
+    "leg_press": {
+        "name": "לחיצת רגליים (Leg Press)", "category": "רגליים", "type": "machine", 
+        "muscle": "ארבע-ראשי וישבן", "guide": "דחף את הפלטפורמה בלי לנעול לגמרי ברכיים.", 
+        "video_url": "https://www.youtube.com/embed/IZxyjW7MPJQ",
+        "anatomy_img": "https://exrx.net/Muscles/Quadriceps.jpg"
+    },
+    "leg_extension": {
+        "name": "פשטת ברכיים (ירך קדמית)", "category": "רגליים", "type": "machine", 
+        "muscle": "ארבע-ראשי (Quadriceps)", "guide": "ישר את הרגליים קדימה במכונה ייעודית.", 
+        "video_url": "https://www.youtube.com/embed/YyvSfVjQeL0",
+        "anatomy_img": "https://exrx.net/Muscles/Quadriceps.jpg"
+    },
+    "leg_curl": {
+        "name": "כפיפת ברכיים (ירך אחורית)", "category": "רגליים", "type": "machine", 
+        "muscle": "המסטרינג (Hamstrings)", "guide": "כופף את הרגליים לאחור כנגד ההתנגדות.", 
+        "video_url": "https://www.youtube.com/embed/1T5Kjn7x91w",
+        "anatomy_img": "https://exrx.net/Muscles/Hamstrings.jpg"
+    },
+    "calf_raise": {
+        "name": "הרים שוקיים / תאומים", "category": "רגליים", "type": "machine", 
+        "muscle": "שוקיים (Calves)", "guide": "עלה על קצות האצבעות והורד עקבים למטה למתיחה.", 
+        "video_url": "https://www.youtube.com/embed/YMme0n7Bedw",
+        "anatomy_img": "https://exrx.net/Muscles/Gastrocnemius.jpg"
+    },
 
-    "biceps_curl": {"name": "כפיפת מרפקים (יד קדמית)", "category": "ידיים", "muscle": "יד קדמית (Biceps)", "guide": "הרם את הידיות לעבר הכתפיים בשליטה.", "video_url": "https://www.youtube.com/embed/ykJmrZ5v0Oo"},
-    "triceps_extension": {"name": "פשיטת מרפקים (יד אחורית)", "category": "ידיים", "muscle": "יד אחורית (Triceps)", "guide": "דחף את הידיות כלפי מטה עד יישור הזרועות.", "video_url": "https://www.youtube.com/embed/nAh_Kxfeh5Q"},
+    # --- כתפיים ---
+    "overhead_press": {
+        "name": "לחיצת כתפיים עמידה במוט", "category": "כתפיים", "type": "free", 
+        "muscle": "כתף קדמית ואמצעית", "guide": "דחף את המוט מעל הראש ממצב חזה.", 
+        "video_url": "https://www.youtube.com/embed/2yjwXT8jOPw",
+        "anatomy_img": "https://exrx.net/Muscles/DeltoidAnterior.jpg"
+    },
+    "lateral_raise": {
+        "name": "הרחקת כתפיים לצדדים בדאמבלים", "category": "כתפיים", "type": "free", 
+        "muscle": "כתף אמצעית", "guide": "הרים דאמבלים לצדדים עד בגובה הכתף.", 
+        "video_url": "https://www.youtube.com/embed/3VcKaXpzqRo",
+        "anatomy_img": "https://exrx.net/Muscles/DeltoidLateral.jpg"
+    },
 
-    "ab_crunch": {"name": "מכשיר כפיפות בטן", "category": "בטן", "muscle": "שרירי הבטן הישירים", "guide": "כופף את הגו קדימה כנגד המשקל.", "video_url": "https://www.youtube.com/embed/2-w9bqa5t1s"}
+    # --- ידיים ---
+    "biceps_curl": {
+        "name": "כפיפת מרפקים (יד קדמית)", "category": "ידיים", "type": "free", 
+        "muscle": "יד קדמית (Biceps)", "guide": "הקפד לא לזוז עם הגב והרם את המשקל למעלה.", 
+        "video_url": "https://www.youtube.com/embed/ykJmrZ5v0Oo",
+        "anatomy_img": "https://exrx.net/Muscles/BicepsBrachii.jpg"
+    },
+    "triceps_pushdown": {
+        "name": "פשיטת מרפקים בפולי (יד אחורית)", "category": "ידיים", "type": "machine", 
+        "muscle": "יד אחורית (Triceps)", "guide": "דחף את החבל או המוט כלפי מטה עם מרפקים צמודים לגוף.", 
+        "video_url": "https://www.youtube.com/embed/2-w9bqa5t1s",
+        "anatomy_img": "https://exrx.net/Muscles/TricepsBrachii.jpg"
+    },
+
+    # --- בטן ---
+    "crunch": {
+        "name": "כפיפות בטן", "category": "בטן", "type": "machine", 
+        "muscle": "שרירי הבטן הישירים", "guide": "כופף את פלג הגוף העליון קדימה בכיוון האגן.", 
+        "video_url": "https://www.youtube.com/embed/MKiuj6A4Hcs",
+        "anatomy_img": "https://exrx.net/Muscles/RectusAbdominis.jpg"
+    }
 }
 
 HTML_TEMPLATE = """
@@ -54,7 +162,7 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymLog Pro</title>
+    <title>GymLog Pro Ultimate</title>
     <style>
         :root {
             --bg-color: #121212;
@@ -82,23 +190,29 @@ HTML_TEMPLATE = """
         
         .controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
         input.search-box { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-color); border-radius: 10px; font-size: 15px; }
-        .filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 5px; }
+        
+        .filters, .type-filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 5px; }
         .filter-btn { background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border); padding: 6px 12px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
         .filter-btn.active { background: var(--accent); color: #000; border-color: var(--accent); font-weight: bold; }
 
         .machine-card { background-color: var(--card-bg); border-radius: 12px; padding: 16px; margin-bottom: 15px; border: 1px solid var(--border); }
         .machine-title { font-size: 18px; font-weight: bold; color: var(--accent); }
-        .badge { display: inline-block; background: var(--input-bg); color: var(--subtext); padding: 3px 8px; border-radius: 6px; font-size: 12px; margin-top: 4px; }
+        .badge-group { display: flex; gap: 5px; margin-top: 5px; }
+        .badge { display: inline-block; background: var(--input-bg); color: var(--subtext); padding: 3px 8px; border-radius: 6px; font-size: 11px; }
+        
+        .content-grid { display: grid; grid-template-columns: 1fr 120px; gap: 10px; align-items: center; margin-top: 10px; }
+        .anatomy-img { width: 100%; height: 120px; object-fit: contain; background: #fff; border-radius: 8px; padding: 4px; border: 1px solid var(--border); }
+        
         .section-title { font-size: 13px; color: var(--subtext); margin-top: 10px; }
         .muscle-info { font-size: 14px; color: var(--text-color); margin-bottom: 6px; }
         .guide-info { font-size: 13px; color: var(--subtext); line-height: 1.4; margin-bottom: 10px; }
-        iframe { width: 100%; height: 180px; border-radius: 8px; border: none; margin-bottom: 12px; }
+        iframe { width: 100%; height: 180px; border-radius: 8px; border: none; margin-bottom: 12px; margin-top: 10px; }
         
         .form-group { display: flex; gap: 8px; margin-top: 10px; }
         input[type="number"] { flex: 1; padding: 10px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-color); border-radius: 8px; font-size: 14px; text-align: center; }
         button.save-btn { background-color: var(--accent); color: #000; border: none; padding: 10px 15px; font-weight: bold; border-radius: 8px; cursor: pointer; }
         
-        .history-box { margin-top: 12px; background: var(--input-bg); padding: 10px; border-radius: 8px; font-size: 12px; max-height: 100px; overflow-y: auto; color: var(--subtext); }
+        .history-box { margin-top: 12px; background: var(--input-bg); padding: 10px; border-radius: 8px; font-size: 12px; max-height: 120px; overflow-y: auto; color: var(--subtext); }
         .history-item { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 4px 0; }
     </style>
 </head>
@@ -109,7 +223,14 @@ HTML_TEMPLATE = """
     </header>
 
     <div class="controls">
-        <input type="text" id="searchBox" class="search-box" placeholder="חפש מכונה או תרגיל..." oninput="filterMachines()">
+        <input type="text" id="searchBox" class="search-box" placeholder="חפש תרגיל או מכונה..." oninput="filterMachines()">
+        
+        <div class="type-filters">
+            <button class="filter-btn active" onclick="setType('all', this)">הכל</button>
+            <button class="filter-btn" onclick="setType('free', this)">🏋️ משקל חופשי</button>
+            <button class="filter-btn" onclick="setType('machine', this)">🦾 מכונות</button>
+        </div>
+
         <div class="filters">
             <button class="filter-btn active" onclick="setCategory('הכל', this)">הכל</button>
             <button class="filter-btn" onclick="setCategory('חזה', this)">חזה</button>
@@ -123,12 +244,22 @@ HTML_TEMPLATE = """
 
     <div id="machinesList">
         {% for id, m in machines.items() %}
-        <div class="machine-card" data-name="{{ m.name }}" data-category="{{ m.category }}">
+        <div class="machine-card" data-name="{{ m.name }}" data-category="{{ m.category }}" data-type="{{ m.type }}">
             <div class="machine-title">{{ m.name }}</div>
-            <span class="badge">{{ m.category }}</span>
+            <div class="badge-group">
+                <span class="badge">{{ m.category }}</span>
+                <span class="badge">{% if m.type == 'free' %}משקל חופשי{% else %}מכונה{% endif %}</span>
+            </div>
             
-            <div class="section-title">שרירים פועלים:</div>
-            <div class="muscle-info">{{ m.muscle }}</div>
+            <div class="content-grid">
+                <div>
+                    <div class="section-title">שרירים פועלים:</div>
+                    <div class="muscle-info">{{ m.muscle }}</div>
+                </div>
+                <div>
+                    <img src="{{ m.anatomy_img }}" alt="שריר מטרה" class="anatomy-img" title="השריר המרכזי שעובדים עליו">
+                </div>
+            </div>
             
             <div class="section-title">איך לבצע:</div>
             <div class="guide-info">{{ m.guide }}</div>
@@ -147,12 +278,12 @@ HTML_TEMPLATE = """
                 {% if history[id] %}
                     {% for h in history[id] %}
                     <div class="history-item">
-                        <span>{{ h[0] }} ק״ג x {{ h[1] }} חזרות</span>
+                        <span><strong>{{ h[0] }} ק״ג</strong> x {{ h[1] }} חזרות</span>
                         <span>{{ h[2][:16] }}</span>
                     </div>
                     {% endfor %}
                 {% else %}
-                    <span>טרם נרשמו אימונים למכונה זו</span>
+                    <span>טרם נרשמו אימונים לתרגיל זה</span>
                 {% endif %}
             </div>
         </div>
@@ -161,6 +292,7 @@ HTML_TEMPLATE = """
 
     <script>
         let currentCategory = 'הכל';
+        let currentType = 'all';
 
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
@@ -168,7 +300,14 @@ HTML_TEMPLATE = """
 
         function setCategory(cat, btn) {
             currentCategory = cat;
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.filters .filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            filterMachines();
+        }
+
+        function setType(type, btn) {
+            currentType = type;
+            document.querySelectorAll('.type-filters .filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             filterMachines();
         }
@@ -180,10 +319,13 @@ HTML_TEMPLATE = """
             cards.forEach(card => {
                 const name = card.getAttribute('data-name').toLowerCase();
                 const category = card.getAttribute('data-category');
+                const type = card.getAttribute('data-type');
+
                 const matchesSearch = name.includes(query);
                 const matchesCat = (currentCategory === 'הכל' || category === currentCategory);
+                const matchesType = (currentType === 'all' || type === currentType);
 
-                if (matchesSearch && matchesCat) {
+                if (matchesSearch && matchesCat && matchesType) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
@@ -206,14 +348,13 @@ HTML_TEMPLATE = """
                 const data = await res.json();
                 const historyBox = document.getElementById(`history-${machineId}`);
                 
-                // אם זו ההיסטוריה הראשונה, נקה את הודעת הטרם נרשמו
                 if(historyBox.innerHTML.includes('טרם נרשמו')) {
                     historyBox.innerHTML = '';
                 }
 
                 const newItem = document.createElement('div');
                 newItem.className = 'history-item';
-                newItem.innerHTML = `<span>${data.weight} ק״ג x ${data.reps} חזרות</span><span>${data.date.substring(0,16)}</span>`;
+                newItem.innerHTML = `<span><strong>${data.weight} ק״ג</strong> x ${data.reps} חזרות</span><span>${data.date.substring(0,16)}</span>`;
                 historyBox.prepend(newItem);
 
                 document.getElementById(`weight-${machineId}`).value = '';
