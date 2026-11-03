@@ -16,114 +16,29 @@ def init_db():
             date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     ''')
+    cursor.execute('''
+        CREATE TABLE IF NOT EXISTS custom_exercises (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            category TEXT NOT NULL,
+            workout TEXT NOT NULL,
+            muscle TEXT NOT NULL
+        )
+    ''')
     conn.commit()
     conn.close()
 
 init_db()
 
 MACHINES = {
-    # --- חזה (PUSH) ---
-    "bench_press": {
-        "name": "לחיצת חזה מוט (שטוח)", "category": "חזה", "type": "free", "workout": "push",
-        "muscle": "חזה גדול, יד אחורית, כתף קדמית", 
-        "guide": "שכוב על הספסל, אחוז מוט ברוחב כתפיים, הורד לחזה ודחף למעלה.", 
-        "video_url": "https://www.youtube.com/embed/rT7DgCr-3pg",
-        "anatomy_img": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&auto=format&fit=crop"
-    },
-    "incline_bench": {
-        "name": "לחיצת חזה עליון במוט/דאמבלים", "category": "חזה", "type": "free", "workout": "push",
-        "muscle": "חזה עליון, כתף קדמית", 
-        "guide": "ספסל בשיפוע 30-45 מעלות, דחף מעלה בשליטה.", 
-        "video_url": "https://www.youtube.com/embed/SrqNv9yexnY",
-        "anatomy_img": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&auto=format&fit=crop"
-    },
-    "chest_fly": {
-        "name": "פרפר / פרפר בכבלים", "category": "חזה", "type": "machine", "workout": "push",
-        "muscle": "חזה מבודד", 
-        "guide": "קירוב ידיים במרפקים מעט כפופים וקבועים.", 
-        "video_url": "https://www.youtube.com/embed/Z57CtZuYxug",
-        "anatomy_img": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=300&auto=format&fit=crop"
-    },
-
-    # --- כתפיים (PUSH) ---
-    "overhead_press": {
-        "name": "לחיצת כתפיים במוט/דאמבלים", "category": "כתפיים", "type": "free", "workout": "push",
-        "muscle": "כתף קדמית ואמצעית", 
-        "guide": "דחף את המשקל מעל הראש בעמידה או ישיבה.", 
-        "video_url": "https://www.youtube.com/embed/2yjwXT8jOPw",
-        "anatomy_img": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&auto=format&fit=crop"
-    },
-    "lateral_raise": {
-        "name": "הרחקת כתפיים לצדדים", "category": "כתפיים", "type": "free", "workout": "push",
-        "muscle": "כתף אמצעית", 
-        "guide": "הרם משקולות לצדדים בגובה הכתפיים.", 
-        "video_url": "https://www.youtube.com/embed/3VcKaXpzqRo",
-        "anatomy_img": "https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?w=300&auto=format&fit=crop"
-    },
-
-    # --- יד אחורית (PUSH) ---
-    "triceps_pushdown": {
-        "name": "פשיטת מרפקים בפולי (חבל/מוט)", "category": "ידיים", "type": "machine", "workout": "push",
-        "muscle": "יד אחורית (Triceps)", 
-        "guide": "יישר מרפקים כלפי מטה כשהם צמודים לגוף.", 
-        "video_url": "https://www.youtube.com/embed/2-w9bqa5t1s",
-        "anatomy_img": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&auto=format&fit=crop"
-    },
-
-    # --- גב (PULL) ---
-    "pullups": {
-        "name": "מתח (Pull-ups)", "category": "גב", "type": "free", "workout": "pull",
-        "muscle": "רחב גבי (Lats), יד קדמית", 
-        "guide": "אחיזה רחבה, משוך חזה אל המוט.", 
-        "video_url": "https://www.youtube.com/embed/eGo4IYlbE5g",
-        "anatomy_img": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&auto=format&fit=crop"
-    },
-    "lat_pulldown": {
-        "name": "פולי עליון רחב", "category": "גב", "type": "machine", "workout": "pull",
-        "muscle": "רחב גבי", 
-        "guide": "משוך את המוט אל החזה העליון.", 
-        "video_url": "https://www.youtube.com/embed/CAwf7n6Luuc",
-        "anatomy_img": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&auto=format&fit=crop"
-    },
-    "barbell_row": {
-        "name": "חתירה במוט / דאמבלים", "category": "גב", "type": "free", "workout": "pull",
-        "muscle": "גב אמצעי, רחב גבי", 
-        "guide": "התכופף עם גב ישר ומשוך לכיוון הטבור.", 
-        "video_url": "https://www.youtube.com/embed/GWD8lV23IB4",
-        "anatomy_img": "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=300&auto=format&fit=crop"
-    },
-
-    # --- יד קדמית (PULL) ---
-    "biceps_curl": {
-        "name": "כפיפת מרפקים במוט / דאמבלים", "category": "ידיים", "type": "free", "workout": "pull",
-        "muscle": "יד קדמית (Biceps)", 
-        "guide": "כופף מרפקים והרם משקל בלי להזיז את הגב.", 
-        "video_url": "https://www.youtube.com/embed/ykJmrZ5v0Oo",
-        "anatomy_img": "https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=300&auto=format&fit=crop"
-    },
-
-    # --- רגליים (LEGS) ---
-    "squat": {
-        "name": "סקוואט חופשי במוט", "category": "רגליים", "type": "free", "workout": "legs",
-        "muscle": "ארבע-ראשי, ישבן", 
-        "guide": "רד לעומק בשליטה כשהגב ישר ודחף חזרה.", 
-        "video_url": "https://www.youtube.com/embed/ultWZbUMPL8",
-        "anatomy_img": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=300&auto=format&fit=crop"
-    },
-    "leg_press": {
-        "name": "לחיצת רגליים במכונה", "category": "רגליים", "type": "machine", "workout": "legs",
-        "muscle": "ארבע-ראשי וישבן", 
-        "guide": "דחף פלטפורמה בלי לנעול ברכיים לחלוטין.", 
-        "video_url": "https://www.youtube.com/embed/IZxyjW7MPJQ",
-        "anatomy_img": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=300&auto=format&fit=crop"
-    },
-    "leg_curl": {
-        "name": "כפיפת ברכיים (ירך אחורית)", "category": "רגליים", "type": "machine", "workout": "legs",
-        "muscle": "המסטרינג (Hamstrings)", 
-        "guide": "כופף את הרגליים לאחור כנגד ההתנגדות.", 
-        "video_url": "https://www.youtube.com/embed/1T5Kjn7x91w",
-        "anatomy_img": "https://images.unsplash.com/photo-1574680096145-d05b474e2155?w=300&auto=format&fit=crop"
-    }
+    "bench_press": {"name": "לחיצת חזה מוט (שטוח)", "category": "חזה", "type": "free", "workout": "push", "muscle": "חזה גדול, יד אחורית", "guide": "שכוב על הספסל ודחף את המוט למעלה."},
+    "incline_bench": {"name": "לחיצת חזה עליון", "category": "חזה", "type": "free", "workout": "push", "muscle": "חזה עליון", "guide": "ספסל בשיפוע 30-45 מעלות."},
+    "overhead_press": {"name": "לחיצת כתפיים במוט", "category": "כתפיים", "type": "free", "workout": "push", "muscle": "כתף קדמית", "guide": "דחף מוט מעל הראש בעמידה."},
+    "pullups": {"name": "מתח (Pull-ups)", "category": "גב", "type": "free", "workout": "pull", "muscle": "רחב גבי ויד קדמית", "guide": "משוך חזה אל המוט."},
+    "lat_pulldown": {"name": "פולי עליון רחב", "category": "גב", "type": "machine", "workout": "pull", "muscle": "רחב גבי", "guide": "משוך מוט לחזה."},
+    "barbell_row": {"name": "חתירה במוט", "category": "גב", "type": "free", "workout": "pull", "muscle": "גב אמצעי", "guide": "התכופף ומשוך מוט לבטן."},
+    "squat": {"name": "סקוואט חופשי", "category": "רגליים", "type": "free", "workout": "legs", "muscle": "ארבע-ראשי וישבן", "guide": "רד לעומק בשליטה."},
+    "leg_press": {"name": "לחיצת רגליים", "category": "רגליים", "type": "machine", "workout": "legs", "muscle": "ארבע-ראשי", "guide": "דחף משקל בפלטפורמה."}
 }
 
 HTML_TEMPLATE = """
@@ -132,17 +47,18 @@ HTML_TEMPLATE = """
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GymLog Pro</title>
+    <title>GymLog Pro Ultimate</title>
     <style>
         :root {
-            --bg-color: #0f1115;
-            --card-bg: #1a1d24;
-            --text-color: #ffffff;
+            --bg-color: #0b0f19;
+            --card-bg: #151b2b;
+            --text-color: #f3f4f6;
             --subtext: #9ca3af;
             --accent: #10b981;
             --accent-hover: #059669;
-            --border: #2d3748;
-            --input-bg: #222631;
+            --border: #1f293d;
+            --input-bg: #1e2538;
+            --danger: #ef4444;
         }
         .light-mode {
             --bg-color: #f3f4f6;
@@ -153,81 +69,83 @@ HTML_TEMPLATE = """
             --accent-hover: #1d4ed8;
             --border: #e5e7eb;
             --input-bg: #f9fafb;
+            --danger: #dc2626;
         }
         * { box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; margin: 0; padding: 0; }
-        body { background-color: var(--bg-color); color: var(--text-color); padding: 15px; transition: background 0.3s; padding-bottom: 50px; }
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--card-bg); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); }
-        h1 { color: var(--accent); font-size: 20px; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 12px; transition: background 0.3s; padding-bottom: 60px; }
         
-        .nav-tabs { display: flex; gap: 8px; margin-bottom: 15px; }
-        .tab-btn { flex: 1; background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border); padding: 10px; border-radius: 10px; font-size: 14px; cursor: pointer; font-weight: bold; text-align: center; }
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; background: var(--card-bg); padding: 12px 16px; border-radius: 12px; border: 1px solid var(--border); }
+        h1 { color: var(--accent); font-size: 20px; }
+
+        .nav-tabs { display: flex; gap: 6px; margin-bottom: 12px; overflow-x: auto; padding-bottom: 4px; }
+        .tab-btn { background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border); padding: 8px 12px; border-radius: 10px; font-size: 13px; cursor: pointer; font-weight: bold; white-space: nowrap; flex: 1; text-align: center; }
         .tab-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
         .section-view { display: none; }
         .section-view.active { display: block; }
 
-        .controls { display: flex; flex-direction: column; gap: 10px; margin-bottom: 15px; }
-        input.search-box { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-color); border-radius: 10px; font-size: 15px; }
+        .timer-bar { background: var(--card-bg); border: 1px solid var(--border); padding: 10px; border-radius: 10px; text-align: center; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
         
-        .filters { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 5px; }
-        .filter-btn { background: var(--card-bg); color: var(--text-color); border: 1px solid var(--border); padding: 6px 14px; border-radius: 20px; font-size: 13px; cursor: pointer; white-space: nowrap; }
-        .filter-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: bold; }
+        .machine-card { background-color: var(--card-bg); border-radius: 14px; padding: 15px; margin-bottom: 12px; border: 1px solid var(--border); position: relative; }
+        .machine-card.completed { border-color: var(--accent); opacity: 0.75; }
+        
+        .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+        .machine-title { font-size: 17px; font-weight: bold; color: var(--accent); }
+        
+        .done-checkbox { display: flex; align-items: center; gap: 5px; font-size: 12px; font-weight: bold; cursor: pointer; background: var(--input-bg); padding: 5px 8px; border-radius: 8px; border: 1px solid var(--border); }
+        .done-checkbox input { width: 16px; height: 16px; accent-color: var(--accent); cursor: pointer; }
 
-        .machine-card { background-color: var(--card-bg); border-radius: 14px; padding: 16px; margin-bottom: 15px; border: 1px solid var(--border); position: relative; }
-        .machine-card.completed { border-color: var(--accent); opacity: 0.7; }
+        .badge-group { display: flex; gap: 5px; margin-bottom: 8px; }
+        .badge { display: inline-block; background: var(--input-bg); color: var(--subtext); padding: 3px 7px; border-radius: 6px; font-size: 11px; border: 1px solid var(--border); }
         
-        .card-header { display: flex; justify-content: space-between; align-items: center; }
-        .machine-title { font-size: 18px; font-weight: bold; color: var(--accent); }
+        .section-title { font-size: 11px; color: var(--subtext); margin-top: 8px; }
+        .muscle-info { font-size: 13px; color: var(--text-color); margin-bottom: 6px; }
         
-        .done-checkbox { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: bold; cursor: pointer; background: var(--input-bg); padding: 6px 10px; border-radius: 8px; border: 1px solid var(--border); }
-        .done-checkbox input { width: 18px; height: 18px; accent-color: var(--accent); cursor: pointer; }
+        .suggestion-box { background: rgba(16, 185, 129, 0.1); border: 1px dashed var(--accent); padding: 8px; border-radius: 8px; font-size: 12px; color: var(--accent); margin-bottom: 8px; font-weight: bold; display: none; }
+        .rm-box { font-size: 11px; color: var(--subtext); margin-bottom: 6px; }
 
-        .badge-group { display: flex; gap: 5px; margin-top: 5px; }
-        .badge { display: inline-block; background: var(--input-bg); color: var(--subtext); padding: 3px 8px; border-radius: 6px; font-size: 11px; border: 1px solid var(--border); }
+        .form-group { display: flex; gap: 6px; margin-top: 8px; }
+        input[type="number"], input[type="text"], select { flex: 1; padding: 9px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-color); border-radius: 8px; font-size: 13px; text-align: center; }
+        button.save-btn { background-color: var(--accent); color: #fff; border: none; padding: 9px 14px; font-weight: bold; border-radius: 8px; cursor: pointer; font-size: 13px; }
         
-        .section-title { font-size: 12px; color: var(--subtext); margin-top: 10px; }
-        .muscle-info { font-size: 14px; color: var(--text-color); margin-bottom: 6px; }
-        .guide-info { font-size: 13px; color: var(--subtext); line-height: 1.4; margin-bottom: 10px; }
-        iframe { width: 100%; height: 170px; border-radius: 8px; border: none; margin-bottom: 10px; margin-top: 8px; }
-        
-        .form-group { display: flex; gap: 8px; margin-top: 10px; }
-        input[type="number"] { flex: 1; padding: 10px; background: var(--input-bg); border: 1px solid var(--border); color: var(--text-color); border-radius: 8px; font-size: 14px; text-align: center; }
-        button.save-btn { background-color: var(--accent); color: #fff; border: none; padding: 10px 16px; font-weight: bold; border-radius: 8px; cursor: pointer; }
-        
-        .history-box { margin-top: 12px; background: var(--input-bg); padding: 10px; border-radius: 8px; font-size: 12px; max-height: 110px; overflow-y: auto; color: var(--subtext); border: 1px solid var(--border); }
-        .history-item { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 4px 0; }
+        .history-box { margin-top: 10px; background: var(--input-bg); padding: 8px; border-radius: 8px; font-size: 11px; max-height: 90px; overflow-y: auto; color: var(--subtext); border: 1px solid var(--border); }
+        .history-item { display: flex; justify-content: space-between; border-bottom: 1px solid var(--border); padding: 3px 0; }
 
-        .program-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 15px; }
-        .timer-bar { background: var(--card-bg); border: 1px solid var(--border); padding: 10px; border-radius: 10px; text-align: center; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .program-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 12px; }
+        
+        /* Builder Form */
+        .builder-form { background: var(--card-bg); padding: 15px; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 15px; }
+        .builder-form input, .builder-form select { width: 100%; margin-bottom: 8px; text-align: right; }
     </style>
 </head>
 <body>
     <header>
         <h1>🏋️‍♂️ GymLog Pro</h1>
-        <button class="tab-btn" onclick="toggleTheme()" style="padding: 6px 12px; width: auto;">🌓 תצוגה</button>
+        <button class="tab-btn" onclick="toggleTheme()" style="padding: 5px 10px; flex: none;">🌓 תצוגה</button>
     </header>
 
     <!-- טיימר מנוחה מהיר -->
     <div class="timer-bar">
-        <span>⏱️ מנוחה בין סטים: <strong id="timerClock">00:00</strong></span>
-        <div>
-            <button class="filter-btn" onclick="startTimer(90)">90 שניות</button>
-            <button class="filter-btn" onclick="startTimer(120)">2 דקות</button>
+        <span>⏱️ מנוחה: <strong id="timerClock">00:00</strong></span>
+        <div style="display:flex; gap:5px;">
+            <button class="filter-btn" onclick="startTimer(90)" style="background:var(--input-bg); border:1px solid var(--border); color:var(--text-color); padding:4px 8px; border-radius:6px; cursor:pointer;">90 שניות</button>
+            <button class="filter-btn" onclick="startTimer(120)" style="background:var(--input-bg); border:1px solid var(--border); color:var(--text-color); padding:4px 8px; border-radius:6px; cursor:pointer;">2 דקות</button>
         </div>
     </div>
 
-    <!-- ניווט ראשית -->
+    <!-- ניווט ראשי -->
     <div class="nav-tabs">
         <button class="tab-btn active" onclick="switchTab('workoutTab', this)">📋 תוכנית אימון</button>
+        <button class="tab-btn" onclick="switchTab('builderTab', this)">🛠️ בנה תוכנית</button>
         <button class="tab-btn" onclick="switchTab('allExercisesTab', this)">💪 כל התרגילים</button>
     </div>
 
-    <!-- 1. טאב תוכנית אימון מובנית עם סימון V -->
+    <!-- 1. טאב תוכנית אימון מובנית -->
     <div id="workoutTab" class="section-view active">
         <div class="program-selector">
-            <button class="filter-btn active" onclick="selectProgram('push', this)">🔥 דחיפה (Push)</button>
-            <button class="filter-btn" onclick="selectProgram('pull', this)">⚡ משיכה (Pull)</button>
-            <button class="filter-btn" onclick="selectProgram('legs', this)">🦵 רגליים (Legs)</button>
+            <button class="tab-btn active" onclick="selectProgram('push', this)">🔥 דחיפה</button>
+            <button class="tab-btn" onclick="selectProgram('pull', this)">⚡ משיכה</button>
+            <button class="tab-btn" onclick="selectProgram('legs', this)">🦵 רגליים</button>
         </div>
 
         <div id="programList">
@@ -236,8 +154,7 @@ HTML_TEMPLATE = """
                 <div class="card-header">
                     <div class="machine-title">{{ m.name }}</div>
                     <label class="done-checkbox">
-                        <input type="checkbox" onchange="toggleDone('{{ id }}', this)">
-                        בוצע בV
+                        <input type="checkbox" onchange="toggleDone('{{ id }}', this)"> בוצע V
                     </label>
                 </div>
 
@@ -246,10 +163,14 @@ HTML_TEMPLATE = """
                     <span class="badge">{% if m.type == 'free' %}משקל חופשי{% else %}מכונה{% endif %}</span>
                 </div>
                 
-                <div class="section-title">שריר מרכזי:</div>
-                <div class="muscle-info">{{ m.muscle }}</div>
+                <div class="muscle-info">🎯 שריר: {{ m.muscle }}</div>
                 
-                <iframe src="{{ m.video_url }}" allowfullscreen></iframe>
+                <!-- המלצה חכמה לעליית משקל -->
+                <div class="suggestion-box" id="suggestion-{{ id }}">
+                    💡 המלצה: עברת 8 חזרות באימון קודם! נסה לעלות משקל היום 🚀
+                </div>
+
+                <div class="rm-box" id="rm-{{ id }}">מקסימום משוער (1RM): חישוב יופיע לאחר שמירה</div>
                 
                 <form onsubmit="saveWeight(event, '{{ id }}')">
                     <div class="form-group">
@@ -268,7 +189,47 @@ HTML_TEMPLATE = """
                         </div>
                         {% endfor %}
                     {% else %}
-                        <span>טרם נרשמו אימונים לתרגיל זה</span>
+                        <span>טרם נרשמו אימונים</span>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+
+            <!-- תרגילים מותאמים אישית שנוספו -->
+            {% for c in custom_exercises %}
+            <div class="machine-card program-card" data-workout="{{ c[3] }}" id="card-custom-{{ c[0] }}">
+                <div class="card-header">
+                    <div class="machine-title">{{ c[1] }} (מותאם אישית)</div>
+                    <label class="done-checkbox">
+                        <input type="checkbox" onchange="toggleDone('custom-{{ c[0] }}', this)"> בוצע V
+                    </label>
+                </div>
+
+                <div class="badge-group">
+                    <span class="badge">{{ c[2] }}</span>
+                    <span class="badge">מותאם אישית</span>
+                </div>
+                
+                <div class="muscle-info">🎯 שריר: {{ c[4] }}</div>
+
+                <form onsubmit="saveWeight(event, 'custom-{{ c[0] }}')">
+                    <div class="form-group">
+                        <input type="number" step="0.5" id="weight-custom-{{ c[0] }}" placeholder="משקל (ק״ג)" required>
+                        <input type="number" id="reps-custom-{{ c[0] }}" placeholder="חזרות" required>
+                        <button type="submit" class="save-btn">שמור</button>
+                    </div>
+                </form>
+
+                <div class="history-box" id="history-custom-{{ c[0] }}">
+                    {% if history['custom-' ~ c[0]] %}
+                        {% for h in history['custom-' ~ c[0]] %}
+                        <div class="history-item">
+                            <span><strong>{{ h[0] }} ק״ג</strong> x {{ h[1] }} חזרות</span>
+                            <span>{{ h[2][:16] }}</span>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <span>טרם נרשמו אימונים</span>
                     {% endif %}
                 </div>
             </div>
@@ -276,54 +237,47 @@ HTML_TEMPLATE = """
         </div>
     </div>
 
-    <!-- 2. טאב כל התרגילים (חיפוש וסינון חופשי) -->
-    <div id="allExercisesTab" class="section-view">
-        <div class="controls">
-            <input type="text" id="searchBox" class="search-box" placeholder="חפש תרגיל..." oninput="filterAllMachines()">
-            <div class="filters">
-                <button class="filter-btn active" onclick="setCategory('הכל', this)">הכל</button>
-                <button class="filter-btn" onclick="setCategory('חזה', this)">חזה</button>
-                <button class="filter-btn" onclick="setCategory('גב', this)">גב</button>
-                <button class="filter-btn" onclick="setCategory('כתפיים', this)">כתפיים</button>
-                <button class="filter-btn" onclick="setCategory('רגליים', this)">רגליים</button>
-                <button class="filter-btn" onclick="setCategory('ידיים', this)">ידיים</button>
-            </div>
+    <!-- 2. טאב בורא תוכניות אימון אישיות -->
+    <div id="builderTab" class="section-view">
+        <div class="builder-form">
+            <h3 style="margin-bottom:10px; color:var(--accent);">הוסף תרגיל חדש לתוכנית שלך</h3>
+            <form action="/api/add_custom_exercise" method="POST">
+                <input type="text" name="name" placeholder="שם התרגיל (למשל: דאמבל פליי)" required>
+                <select name="category" required>
+                    <option value="חזה">חזה</option>
+                    <option value="גב">גב</option>
+                    <option value="כתפיים">כתפיים</option>
+                    <option value="רגליים">רגליים</option>
+                    <option value="ידיים">ידיים</option>
+                    <option value="בטן">בטן</option>
+                </select>
+                <select name="workout" required>
+                    <option value="push">דחיפה (Push)</option>
+                    <option value="pull">משיכה (Pull)</option>
+                    <option value="legs">רגליים (Legs)</option>
+                </select>
+                <input type="text" name="muscle" placeholder="שרירים פועלים (למשל: חזה עליון)" required>
+                <button type="submit" class="save-btn" style="width:100%;">הוסף תרגיל למערכת ➕</button>
+            </form>
         </div>
+    </div>
 
+    <!-- 3. טאב כל התרגילים -->
+    <div id="allExercisesTab" class="section-view">
         <div id="allList">
             {% for id, m in machines.items() %}
-            <div class="machine-card all-card" data-category="{{ m.category }}" data-name="{{ m.name }}">
+            <div class="machine-card">
                 <div class="machine-title">{{ m.name }}</div>
-                <div class="badge-group">
-                    <span class="badge">{{ m.category }}</span>
-                    <span class="badge">{% if m.type == 'free' %}משקל חופשי{% else %}מכונה{% endif %}</span>
-                </div>
-                
-                <div class="section-title">שריר מרכזי:</div>
-                <div class="muscle-info">{{ m.muscle }}</div>
-                <div class="guide-info">{{ m.guide }}</div>
-                
-                <iframe src="{{ m.video_url }}" allowfullscreen></iframe>
-                
-                <form onsubmit="saveWeight(event, '{{ id }}-all')">
-                    <div class="form-group">
-                        <input type="number" step="0.5" id="weight-{{ id }}-all" placeholder="משקל (ק״ג)" required>
-                        <input type="number" id="reps-{{ id }}-all" placeholder="חזרות" required>
-                        <button type="submit" class="save-btn">שמור</button>
-                    </div>
-                </form>
+                <div class="badge-group"><span class="badge">{{ m.category }}</span></div>
+                <div class="muscle-info">🎯 {{ m.muscle }}</div>
+                <div style="font-size:12px; color:var(--subtext); margin-top:5px;">💡 {{ m.guide }}</div>
             </div>
             {% endfor %}
         </div>
     </div>
 
     <script>
-        let currentProgram = 'push';
-        let currentCategory = 'הכל';
-
-        function toggleTheme() {
-            document.body.classList.toggle('light-mode');
-        }
+        function toggleTheme() { document.body.classList.toggle('light-mode'); }
 
         function switchTab(tabId, btn) {
             document.querySelectorAll('.section-view').forEach(el => el.classList.remove('active'));
@@ -333,8 +287,7 @@ HTML_TEMPLATE = """
         }
 
         function selectProgram(prog, btn) {
-            currentProgram = prog;
-            document.querySelectorAll('.program-selector .filter-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.program-selector .tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             
             document.querySelectorAll('.program-card').forEach(card => {
@@ -348,65 +301,42 @@ HTML_TEMPLATE = """
 
         function toggleDone(id, checkbox) {
             const card = document.getElementById(`card-${id}`);
-            if (checkbox.checked) {
-                card.classList.add('completed');
-            } else {
-                card.classList.remove('completed');
-            }
+            if (checkbox.checked) { card.classList.add('completed'); } 
+            else { card.classList.remove('completed'); }
         }
 
-        function setCategory(cat, btn) {
-            currentCategory = cat;
-            document.querySelectorAll('.filters .filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            filterAllMachines();
-        }
-
-        function filterAllMachines() {
-            const query = document.getElementById('searchBox').value.toLowerCase();
-            document.querySelectorAll('.all-card').forEach(card => {
-                const name = card.getAttribute('data-name').toLowerCase();
-                const cat = card.getAttribute('data-category');
-                const matchesSearch = name.includes(query);
-                const matchesCat = (currentCategory === 'הכל' || cat === currentCategory);
-
-                if (matchesSearch && matchesCat) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
-
-        async function saveWeight(e, inputSuffix) {
+        async function saveWeight(e, machineId) {
             e.preventDefault();
-            const cleanId = inputSuffix.replace('-all', '');
-            const weight = document.getElementById(`weight-${inputSuffix}`).value;
-            const reps = document.getElementById(`reps-${inputSuffix}`).value;
+            const weight = parseFloat(document.getElementById(`weight-${machineId}`).value);
+            const reps = parseInt(document.getElementById(`reps-${machineId}`).value);
 
             const res = await fetch('/api/add_weight', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({machine_id: cleanId, weight: parseFloat(weight), reps: parseInt(reps)})
+                body: JSON.stringify({machine_id: machineId, weight: weight, reps: reps})
             });
 
             if(res.ok) {
                 const data = await res.json();
-                const historyBox = document.getElementById(`history-${cleanId}`);
-                
-                if(historyBox && historyBox.innerHTML.includes('טרם נרשמו')) {
-                    historyBox.innerHTML = '';
+                const historyBox = document.getElementById(`history-${machineId}`);
+                if(historyBox.innerHTML.includes('טרם נרשמו')) { historyBox.innerHTML = ''; }
+
+                const newItem = document.createElement('div');
+                newItem.className = 'history-item';
+                newItem.innerHTML = `<span><strong>${weight} ק״ג</strong> x ${reps} חזרות</span><span>${data.date.substring(0,16)}</span>`;
+                historyBox.prepend(newItem);
+
+                // חישוב 1RM משוער: משקל * (1 + חזרות / 30)
+                const oneRepMax = Math.round(weight * (1 + reps / 30));
+                document.getElementById(`rm-${machineId}`).innerText = `🔥 שיא חזרה אחת משוער (1RM): ${oneRepMax} ק״ג`;
+
+                // בדיקת המלצת עליית משקל
+                if (reps >= 8) {
+                    document.getElementById(`suggestion-${machineId}`).style.display = 'block';
                 }
 
-                if(historyBox) {
-                    const newItem = document.createElement('div');
-                    newItem.className = 'history-item';
-                    newItem.innerHTML = `<span><strong>${data.weight} ק״ג</strong> x ${data.reps} חזרות</span><span>${data.date.substring(0,16)}</span>`;
-                    historyBox.prepend(newItem);
-                }
-
-                document.getElementById(`weight-${inputSuffix}`).value = '';
-                document.getElementById(`reps-${inputSuffix}`).value = '';
+                document.getElementById(`weight-${machineId}`).value = '';
+                document.getElementById(`reps-${machineId}`).value = '';
                 alert('נשמר בהצלחה! 💪');
             }
         }
@@ -429,8 +359,7 @@ HTML_TEMPLATE = """
             }, 1000);
         }
 
-        // טעינה ראשונית של תוכנית PUSH
-        selectProgram('push', document.querySelector('.program-selector .filter-btn'));
+        selectProgram('push', document.querySelector('.program-selector .tab-btn'));
     </script>
 </body>
 </html>
@@ -442,6 +371,9 @@ def index():
     cursor = conn.cursor()
     cursor.execute("SELECT machine_id, weight, reps, date FROM weights ORDER BY id DESC")
     rows = cursor.fetchall()
+    
+    cursor.execute("SELECT id, name, category, workout, muscle FROM custom_exercises")
+    custom_exercises = cursor.fetchall()
     conn.close()
 
     history = {}
@@ -451,7 +383,7 @@ def index():
             history[m_id] = []
         history[m_id].append((w, reps, d))
 
-    return render_template_string(HTML_TEMPLATE, machines=MACHINES, history=history)
+    return render_template_string(HTML_TEMPLATE, machines=MACHINES, custom_exercises=custom_exercises, history=history)
 
 @app.route('/api/add_weight', methods=['POST'])
 def add_weight():
@@ -468,7 +400,27 @@ def add_weight():
     date_str = cursor.fetchone()[0]
     conn.close()
 
-    return jsonify({"success": True, "weight": weight, "reps": reps, "date": date_str})
+    return jsonify({"success": True, "date": date_str})
+
+@app.route('/api/add_custom_exercise', methods=['POST'])
+def add_custom_exercise():
+    name = request.form.get('name')
+    category = request.form.get('category')
+    workout = request.form.get('workout')
+    muscle = request.form.get('muscle')
+
+    conn = sqlite3.connect(DB_NAME)
+    cursor = conn.cursor()
+    cursor.execute("INSERT INTO custom_exercises (name, category, workout, muscle) VALUES (?, ?, ?, ?)", (name, category, workout, muscle))
+    conn.commit()
+    conn.close()
+
+    return '''
+        <script>
+            alert('התרגיל נוסף בהצלחה לתוכנית שלך! 🎉');
+            window.location.href = '/';
+        </script>
+    '''
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
